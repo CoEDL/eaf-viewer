@@ -22,7 +22,7 @@ npm run publish
 
 cat <<EOF
 
-    You can now go to https://github.com/marcolarosa/pdsc-eaf-viewer/releases
+    You can now go to https://github.com/CoEDL/eaf-viewer/releases
     to verify the draft and release it.
 
 EOF
