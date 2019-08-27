@@ -13,10 +13,6 @@
         "build:mac": "electron-webpack && electron-builder --mac",
         "publish": "electron-builder --publish always"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/marcolarosa/pdsc-eaf-viewer.git"
-    },
     "build": {
         "appId": "au.org.paradisec.eaf-viewer",
         "productName": "EAF Viewer",
