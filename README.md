@@ -1,7 +1,3 @@
-> # Development of this application has moved to https://github.com/CoEDL/eaf-viewer
->
-> ## Issues raised here will be ignored.
-
 - [EAF Viewer](#eaf-viewer)
   - [Developing the application](#developing-the-application)
   - [Vue application](#vue-application)
