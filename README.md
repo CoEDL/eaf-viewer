@@ -2,6 +2,7 @@
   - [Developing the application](#developing-the-application)
   - [Vue application](#vue-application)
   - [Building a release for MacOS](#building-a-release-for-macos)
+  - [Building a release for Windows](#building-a-release-for-windows)
   - [Publishing release to github releases](#publishing-release-to-github-releases)
   - [Electron webpack](#electron-webpack)
 
@@ -27,6 +28,12 @@ information.
 
 ```
 > npm run build:mac
+```
+
+## Building a release for Windows
+
+```
+> npm run build:win
 ```
 
 ## Publishing release to github releases

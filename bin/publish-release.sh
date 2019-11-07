@@ -14,6 +14,7 @@ fi
 
 export GH_TOKEN="${token}"
 npm run build:mac
+npm run build:win
 
 PACKAGE_VERSION=$(awk '/version/{gsub(/("|",)/,"",$2);print $2};' package.json)
 git tag -a "v${PACKAGE_VERSION}" -e
