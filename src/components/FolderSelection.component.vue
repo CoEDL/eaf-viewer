@@ -42,11 +42,11 @@ export default {
     },
     mounted() {},
     methods: {
-        selectFolder() {
-            let folder = dialog.showOpenDialog({
+        async selectFolder() {
+            let folder = await dialog.showOpenDialog({
                 properties: ["openDirectory"]
             });
-            folder = folder.map(f => {
+            folder = folder.filePaths.map(f => {
                 return { name: f };
             })[0];
             this.setSelectedFolder(folder);
