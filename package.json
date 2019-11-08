@@ -11,13 +11,14 @@
         "server": "npm install && node_modules/gulp/bin/gulp.js develop",
         "test": "gulp test",
         "build:mac": "electron-webpack && electron-builder --mac",
-        "build:win": "electron-webpack && electron-builder --win",
+        "build:win": "./bin/build-windows.sh",
         "publish": "electron-builder --publish always"
     },
     "build": {
         "appId": "au.org.paradisec.eaf-viewer",
         "productName": "EAF Viewer",
         "mac": {},
+        "win": {},
         "publish": [
             "github"
         ]
