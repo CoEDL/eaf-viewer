@@ -8,58 +8,16 @@ import "element-ui/lib/theme-chalk/index.css";
 import "assets/global-styles.scss";
 
 import Vue from "vue";
+import ElementUI from "element-ui";
+import locale from "element-ui/lib/locale/lang/en";
+Vue.use(ElementUI, { locale });
 
 import VueScrollTo from "vue-scrollto";
 Vue.use(VueScrollTo);
 
-import {
-    Form,
-    FormItem,
-    Pagination,
-    Table,
-    TableColumn,
-    Card,
-    Select,
-    Option,
-    Input,
-    Button,
-    Progress
-} from "element-ui";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-locale.use(lang);
-Vue.use(Form);
-Vue.use(FormItem);
-Vue.use(Pagination);
-Vue.use(Table);
-Vue.use(TableColumn);
-Vue.use(Card);
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(Input);
-Vue.use(Button);
-Vue.use(Progress);
-
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-Vue.component("font-awesome-icon", FontAwesomeIcon);
-
-import { library, config } from "@fortawesome/fontawesome-svg-core";
+import fontawesome from "@fortawesome/fontawesome-free/js/all";
+import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoReplaceSvg = "nest";
-import { faMinusSquare, faPlusSquare } from "@fortawesome/pro-light-svg-icons";
-import {
-    faFolderOpen,
-    faFolderPlus,
-    faTimes,
-    faCheck
-} from "@fortawesome/pro-solid-svg-icons";
-library.add(
-    faMinusSquare,
-    faPlusSquare,
-    faFolderOpen,
-    faFolderPlus,
-    faTimes,
-    faCheck
-);
 
 import App from "components/app.vue";
 import { router } from "./routes";

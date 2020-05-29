@@ -15,8 +15,8 @@ function createMainWindow() {
         width: 1300,
         height: 1100,
         webPreferences: {
-            nodeIntegration: true
-        }
+            nodeIntegration: true,
+        },
     });
     window.webContents.session.clearCache(() => {});
 
@@ -30,13 +30,23 @@ function createMainWindow() {
             formatUrl({
                 pathname: path.join(__dirname, "index.html"),
                 protocol: "file",
-                slashes: true
+                slashes: true,
             })
         );
     }
 
+    window.on("close", (e) => {
+        const answer = dialog.showMessageBoxSync({
+            type: "question",
+            buttons: ["cancel", "OK"],
+            message: "Are you sure you want to close the eaf-viewer?",
+        });
+        if (!answer) {
+            return e.preventDefault();
+        }
+    });
     window.on("closed", () => {
-        mainWindow = null;
+        app.exit();
     });
 
     window.webContents.on("devtools-opened", () => {
@@ -75,13 +85,9 @@ app.on("ready", () => {
 function onUpdateDownloaded() {
     let buttonPressed = dialog.showMessageBox({
         type: "info",
-        buttons: ["Update now and restart", "Update later"],
+        buttons: ["Got it!"],
         defaultId: 0,
         title: "Update Available",
-        message: `A new version of the application is available.`
+        message: `A new version of the application is available. It will be installed the next time you restart Describo!.`,
     });
-
-    if (buttonPressed === 0) {
-        autoUpdater.quitAndInstall();
-    }
 }
