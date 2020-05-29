@@ -10,13 +10,16 @@
         "dist:dir": "npm run dist --dir -c.compression=store -c.mac.identity=null",
         "server": "npm install && node_modules/gulp/bin/gulp.js develop",
         "test": "gulp test",
-        "build:mac": "electron-webpack && electron-builder --mac",
+        "build:mac": "electron-webpack && electron-builder --mac --publish always",
+        "build:linux": "electron-webpack && electron-builder --linux --publish always",
         "build:win": "./bin/build-windows.sh",
         "publish": "electron-builder --publish always"
     },
     "build": {
+        "afterSign": "bin/notarize.js",
         "appId": "au.org.paradisec.eaf-viewer",
         "productName": "EAF Viewer",
+        "copyright": "Copyright © 2020 PARADISEC",
         "mac": {
             "hardenedRuntime": true,
             "gatekeeperAssess": false,
@@ -27,7 +30,13 @@
                 "zip"
             ]
         },
+        "dmg": {
+            "sign": false
+        },
         "win": {},
+        "linux": {
+            "target": "tar.bz2"
+        },
         "publish": [
             "github"
         ]
@@ -40,9 +49,9 @@
     "author": "Marco La Rosa",
     "license": "GPLv3",
     "bugs": {
-        "url": "https://github.com/marcolarosa/pdsc-elan-linter/issues"
+        "url": "https://github.com/CoEDL/eaf-viewer/issues"
     },
-    "homepage": "https://github.com/marcolarosa/pdsc-elan-linter#readme",
+    "homepage": "https://github.com/CoEDL/eaf-viewer#readme",
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.13.0",
         "@fortawesome/fontawesome-svg-core": "^1.2.28",
