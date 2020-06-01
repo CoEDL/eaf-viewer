@@ -44,7 +44,7 @@
                 align="center"
             >
                 <template slot-scope="scope">{{
-                    humanizeDuration(scope.row.statistics.duration)
+                    humanize(scope.row.statistics.duration)
                 }}</template>
             </el-table-column>
             <el-table-column
@@ -85,13 +85,21 @@
                 label="Start Time"
                 width="120"
                 align="center"
-            ></el-table-column>
+            >
+                <template slot-scope="scope">{{
+                    humanize(scope.row.statistics.startTime)
+                }}</template>
+            </el-table-column>
             <el-table-column
                 prop="statistics.endTime"
                 label="End Time"
                 width="120"
                 align="center"
-            ></el-table-column>
+            >
+                <template slot-scope="scope">{{
+                    humanize(scope.row.statistics.endTime)
+                }}</template>
+            </el-table-column>
             <el-table-column
                 prop="statistics.referenceAnnotations"
                 label="# Reference Annotations"
@@ -161,8 +169,8 @@ export default {
                 order: order === "descending" ? "desc" : "asc",
             };
         },
-        humanizeDuration(duration) {
-            return prettyMilliseconds(duration);
+        humanize(time) {
+            return prettyMilliseconds(time);
         },
     },
 };
