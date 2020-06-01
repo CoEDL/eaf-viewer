@@ -1,17 +1,17 @@
 <template>
     <div>
         <el-card class="box-card">
-            <div slot="header">
-                Select a folder of EAF files to get started.
-            </div>
-            <div class="w-full">
-                <el-button @click="selectFolder">
-                    <i class="fas fa-folder-open"></i>
-                    select folder
-                </el-button>
-                <span v-show="selectedFolder.name">{{
-                    selectedFolder.name
-                }}</span>
+            <div class="flex flex-row w-full">
+                <div>
+                    <el-button @click="selectFolder" size="small">
+                        <i class="fas fa-folder-open"></i>
+                        Select a folder of EAF files to get started.
+                    </el-button>
+                </div>
+                <div class="flex flex-grow"></div>
+                <div v-show="selectedFolder.name" class="pt-1">
+                    {{ selectedFolder.name }}
+                </div>
             </div>
             <div class="w-full mt-4" v-if="progress">
                 <el-progress :percentage="progress"></el-progress>

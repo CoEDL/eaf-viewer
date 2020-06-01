@@ -11,6 +11,7 @@
         </el-form>
         <el-pagination
             background
+            :small="true"
             layout="total, prev, pager, next"
             :current-page.sync="currentPage"
             :total="total"
@@ -22,6 +23,7 @@
             :default-sort="{ prop: 'duration', order: 'ascending' }"
             :highlight-current-row="true"
             :row-style="{ cursor: 'pointer' }"
+            size="small"
             stripe
             @row-click="triggerRowSelection"
             @sort-change="updateSortParams"
@@ -122,7 +124,7 @@ import prettyMilliseconds from "pretty-ms";
 export default {
     data() {
         return {
-            height: 600,
+            height: 450,
             fileFilter: undefined,
             pageSize: 10,
             currentPage: 1,
