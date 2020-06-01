@@ -2,7 +2,11 @@
     <div>
         <el-form label-width="200px" @submit.native.prevent>
             <el-form-item label="Filter files">
-                <el-input v-model="fileFilter" type="text" placeholder="Filter file list..."></el-input>
+                <el-input
+                    v-model="fileFilter"
+                    type="text"
+                    placeholder="Filter file list..."
+                ></el-input>
             </el-form-item>
         </el-form>
         <el-pagination
@@ -15,15 +19,21 @@
             :data="index"
             :height="height"
             width="800"
-            :default-sort="{prop: 'duration', order: 'ascending'}"
+            :default-sort="{ prop: 'duration', order: 'ascending' }"
             :highlight-current-row="true"
-            :row-style="{'cursor': 'pointer'}"
+            :row-style="{ cursor: 'pointer' }"
             stripe
             @row-click="triggerRowSelection"
             @sort-change="updateSortParams"
             class="text-md"
         >
-            <el-table-column prop="file" label="File" width="300" fixed sortable="custom"></el-table-column>
+            <el-table-column
+                prop="file"
+                label="File"
+                width="300"
+                fixed
+                sortable="custom"
+            ></el-table-column>
             <el-table-column
                 prop="statistics.duration"
                 label="Duration"
@@ -31,7 +41,9 @@
                 sortable="custom"
                 align="center"
             >
-                <template slot-scope="scope">{{humanizeDuration(scope.row.statistics.duration)}}</template>
+                <template slot-scope="scope">{{
+                    humanizeDuration(scope.row.statistics.duration)
+                }}</template>
             </el-table-column>
             <el-table-column
                 prop="statistics.percentageFilled"
@@ -72,7 +84,12 @@
                 width="120"
                 align="center"
             ></el-table-column>
-            <el-table-column prop="statistics.endTime" label="End Time" width="120" align="center"></el-table-column>
+            <el-table-column
+                prop="statistics.endTime"
+                label="End Time"
+                width="120"
+                align="center"
+            ></el-table-column>
             <el-table-column
                 prop="statistics.referenceAnnotations"
                 label="# Reference Annotations"
@@ -110,15 +127,15 @@ export default {
             currentPage: 1,
             sort: {
                 prop: "statistics.percentageFilled",
-                order: "ascending"
-            }
+                order: "ascending",
+            },
         };
     },
     computed: {
         index: function() {
-            let index = this.$store.state.index.filter(d => !d.errors.length);
+            let index = this.$store.state.index.filter((d) => !d.errors.length);
             return orderBy(
-                index.filter(f => f.file.match(this.fileFilter)),
+                index.filter((f) => f.file.match(this.fileFilter)),
                 [this.sort.prop],
                 [this.sort.order]
             ).slice(
@@ -127,9 +144,9 @@ export default {
             );
         },
         total: function() {
-            let index = this.$store.state.index.filter(d => !d.errors.length);
-            return index.filter(f => f.file.match(this.fileFilter)).length;
-        }
+            let index = this.$store.state.index.filter((d) => !d.errors.length);
+            return index.filter((f) => f.file.match(this.fileFilter)).length;
+        },
     },
     methods: {
         triggerRowSelection(row) {
@@ -138,15 +155,14 @@ export default {
         updateSortParams({ column, prop, order }) {
             this.sort = {
                 prop,
-                order: order === "descending" ? "desc" : "asc"
+                order: order === "descending" ? "desc" : "asc",
             };
         },
         humanizeDuration(duration) {
-            return `${round(duration / 60, 0)} mins`;
-        }
-    }
+            return `${round((duration / 1000) * 60, 0)} mins`;
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

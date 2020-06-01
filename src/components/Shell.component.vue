@@ -5,15 +5,15 @@
             <div slot="header">
                 File Statistics
                 <p class="text-gray-600">
-                    Click on a row to see the list of issues discovered in that file and view a visualisation
-                    of the structure.
+                    Click on a row to see the list of issues discovered in that
+                    file and view a visualisation of the structure.
                 </p>
             </div>
             <render-data-table-component v-on:row-selected="loadFile" />
         </el-card>
         <span id="top"></span>
         <el-card class="mt-4" v-if="!loading && selection.file && index.length">
-            <div slot="header">{{selection.file}}</div>
+            <div slot="header">{{ selection.file }}</div>
             <!-- <div class="w-full">
                     <el-button type="text" @click="showErrors = !showErrors">
                         <span v-if="showErrors">
@@ -34,9 +34,13 @@
                         <div slot="header" class="style-header">
                             A visualisation of the timeslots
                             <p class="text-gray-600">
-                                This visualisation depicts the timeslots and annotations found in the file. The first ring
-                                (from the centre) has a block for each timeslot. Selecting one of the timeslots will zoom the visualisation
-                                to show only that timeslot and its associated annotations. To zoom back out, select the central node.
+                                This visualisation depicts the timeslots and
+                                annotations found in the file. The first ring
+                                (from the centre) has a block for each timeslot.
+                                Selecting one of the timeslots will zoom the
+                                visualisation to show only that timeslot and its
+                                associated annotations. To zoom back out, select
+                                the central node.
                             </p>
                         </div>
                         <render-timeslot-sunburst-component
@@ -50,9 +54,13 @@
                         <div slot="header" class="style-header">
                             A visualisation of the tiers
                             <p class="text-gray-600">
-                                This visualisation depicts the tiers and annotations found in the file. The first ring
-                                (from the centre) has a block for each tier. Selecting one of the tiers will zoom the visualisation
-                                to show only that tier and its associated annotations. To zoom back out, select the central node.
+                                This visualisation depicts the tiers and
+                                annotations found in the file. The first ring
+                                (from the centre) has a block for each tier.
+                                Selecting one of the tiers will zoom the
+                                visualisation to show only that tier and its
+                                associated annotations. To zoom back out, select
+                                the central node.
                             </p>
                         </div>
                         <render-tier-sunburst-component
@@ -81,19 +89,19 @@ export default {
         RenderDataTableComponent,
         RenderIssuesComponent,
         RenderTimeslotSunburstComponent,
-        RenderTierSunburstComponent
+        RenderTierSunburstComponent,
     },
     data() {
         return {
             selection: {},
             showErrors: false,
-            loading: false
+            loading: false,
         };
     },
     computed: {
         index: function() {
             return this.$store.state.index;
-        }
+        },
     },
     mounted() {},
     methods: {
@@ -105,8 +113,8 @@ export default {
                 this.loading = false;
                 VueScrollTo.scrollTo("#top", 1000);
             }, 1000);
-        }
-    }
+        },
+    },
 };
 </script>
 

@@ -1,9 +1,8 @@
 "use strict";
 
-import fs from "fs";
-import { promisify } from "util";
-const readdir = promisify(fs.readdir);
-import { DataExtractor } from "./data-extractor";
+import { readdir, readFile } from "fs-extra";
+import path from "path";
+import { Parser } from "@coedl/transcription-parsers";
 
 export async function processFolder({ folder, commit }) {
     let files = await readdir(folder.name);
@@ -14,37 +13,34 @@ export async function processFolder({ folder, commit }) {
         commit("setProcessingStatus", {
             current: idx,
             total: files.length,
-            file: file
+            file: file,
         });
         try {
-            const dataExtractor = new DataExtractor({
-                folder: folder.name,
-                file
+            data = await readFile(path.join(folder.name, file), "utf-8");
+            // console.log(data);
+            let parser = new Parser({
+                name: file,
+                data,
             });
-            data = await dataExtractor.extract();
+            data = await parser.parse();
         } catch (error) {
             data = {
                 tiers: [],
                 timeslots: [],
                 statistics: {},
-                errors: [{ msg: "Invalid XML file" }]
+                errors: [{ msg: "Invalid XML file" }],
             };
         }
         index.push({ file, ...data });
-        await new Promise(resolve => {
+        await new Promise((resolve) => {
             setTimeout(resolve, 150);
         });
     }
 
-    // folder = { name: "/Users/mlarosa/src/pdsc/pdsc-eaf-viewer/data" };
-    // let file = "092.eaf";
-    // const dataExtractor = new DataExtractor({ folder: folder.name, file });
-    // data = await dataExtractor.extract();
-    // console.log(data);
     commit("setProcessingStatus", {
         current: undefined,
         total: undefined,
-        file: undefined
+        file: undefined,
     });
     commit("storeIndex", index);
 }
