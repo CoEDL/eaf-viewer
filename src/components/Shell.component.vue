@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto font-mono p-2">
+    <div class="mx-auto font-mono p-4">
         <folder-selection-component />
         <el-card class="px-6 mt-4" v-if="Object.keys(index).length">
             <div slot="header">
@@ -12,65 +12,51 @@
             <render-data-table-component v-on:row-selected="loadFile" />
         </el-card>
         <span id="top"></span>
-        <el-card class="mt-4" v-if="!loading && selection.file && index.length">
-            <div slot="header">{{ selection.file }}</div>
-            <!-- <div class="w-full">
-                    <el-button type="text" @click="showErrors = !showErrors">
-                        <span v-if="showErrors">
-                            <font-awesome-icon :icon="['fal', 'minus-square']"></font-awesome-icon>&nbsp;hide errors
-                        </span>
-                        <span v-if="!showErrors">
-                            <font-awesome-icon :icon="['fal', 'plus-square']"></font-awesome-icon>&nbsp;show errors
-                        </span>
-                    </el-button>
-                    <render-issues-component
-                        :issues="dataFile.issues"
-                        v-if="showErrors && dataFile.issues.length"
-                    />
-            </div>-->
-            <div class="flex flex-wrap">
-                <div class="w-full xxl:w-1/2">
-                    <el-card class="mt-4 xl:mr-2 px-6">
-                        <div slot="header" class="style-header">
-                            A visualisation of the timeslots
-                            <p class="text-gray-600">
-                                This visualisation depicts the timeslots and
-                                annotations found in the file. The first ring
-                                (from the centre) has a block for each timeslot.
-                                Selecting one of the timeslots will zoom the
-                                visualisation to show only that timeslot and its
-                                associated annotations. To zoom back out, select
-                                the central node.
-                            </p>
-                        </div>
-                        <render-timeslot-sunburst-component
-                            :data="selection.timeslots"
-                            v-if="selection.timeslots"
-                        />
-                    </el-card>
-                </div>
-                <div class="w-full xxl:w-1/2">
-                    <el-card class="mt-4 xl:ml-2 px-6">
-                        <div slot="header" class="style-header">
-                            A visualisation of the tiers
-                            <p class="text-gray-600">
-                                This visualisation depicts the tiers and
-                                annotations found in the file. The first ring
-                                (from the centre) has a block for each tier.
-                                Selecting one of the tiers will zoom the
-                                visualisation to show only that tier and its
-                                associated annotations. To zoom back out, select
-                                the central node.
-                            </p>
+        <div
+            class="mt-4 p-4 border-gray-200 bg-white border-2 rounded"
+            v-if="!loading && selection.file && index.length"
+        >
+            <div>{{ selection.file }}</div>
+            <el-tabs v-model="activeTab">
+                <el-tab-pane label="" name="tiers">
+                    <span slot="label" class="text-gray-800 font-light">
+                        Visualise Tiers
+                    </span>
+                    <div class="flex flex-col" v-if="activeTab === 'tiers'">
+                        <div class="p-4 text-gray-800">
+                            This visualisation depicts the tiers and annotations
+                            found in the file. The first ring (from the centre)
+                            has a block for each tier. Selecting one of the
+                            tiers will zoom the visualisation to show only that
+                            tier and its associated annotations. To zoom back
+                            out, select the central node.
                         </div>
                         <render-tier-sunburst-component
                             :data="selection.tiers"
-                            v-if="selection.tiers"
                         />
-                    </el-card>
-                </div>
-            </div>
-        </el-card>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="Visualise Timeslots" name="timeslots">
+                    <span slot="label" class="text-gray-800 font-light">
+                        Visualise Timeslots
+                    </span>
+                    <div class="flex flex-col" v-if="activeTab === 'timeslots'">
+                        <div class="p-4 text-gray-800">
+                            This visualisation depicts the timeslots and
+                            annotations found in the file. The first ring (from
+                            the centre) has a block for each timeslot. Selecting
+                            one of the timeslots will zoom the visualisation to
+                            show only that timeslot and its associated
+                            annotations. To zoom back out, select the central
+                            node.
+                        </div>
+                        <render-timeslot-sunburst-component
+                            :data="selection.timeslots"
+                        />
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
     </div>
 </template>
 
@@ -96,6 +82,7 @@ export default {
             selection: {},
             showErrors: false,
             loading: false,
+            activeTab: "tiers",
         };
     },
     computed: {
@@ -118,13 +105,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.style-header {
-    height: 120px;
-}
-
-.style-white {
-    background-color: white;
-    height: 100px;
-}
-</style>
+<style scoped lang="scss"></style>
