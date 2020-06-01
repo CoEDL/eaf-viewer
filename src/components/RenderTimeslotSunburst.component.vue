@@ -1,15 +1,19 @@
 <template>
-    <div class="flex">
-        <div class="w-full">
-            <svg ref="timeslotSunburstChart" />
+    <div class="flex flex-row bg-gray-200 py-4 rounded">
+        <div class="w-3/5">
+            <svg ref="timeslotSunburstChart" class="mx-auto" />
         </div>
-        <div class="w-full">
-            <div v-for="(element, idx) of trail" :key="idx">
+        <div class="w-2/5 p-4 text-lg flex flex-col">
+            <div v-for="(element, idx) of trail" :key="idx" class="my-2">
                 <span v-if="element.ts">
-                    <div>TIMESLOT: {{element.ts.start}} - {{element.ts.end}}</div>
-                    <div>Time: {{element.time.start}} - {{element.time.end}}</div>
+                    <div>
+                        TIMESLOT: {{ element.ts.start }} - {{ element.ts.end }}
+                    </div>
+                    <div>
+                        Time: {{ element.time.start }} - {{ element.time.end }}
+                    </div>
                 </span>
-                <div>ANNOTATION ID: {{element.name}} VALUE: {{element.value}}</div>
+                <div>ID: {{ element.name }} VALUE: {{ element.value }}</div>
             </div>
         </div>
     </div>
@@ -33,25 +37,27 @@ export default {
     props: {
         data: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
     data() {
         return {
-            watchers: {},
             debouncedRender: debounce(this.renderVisualisation, 1000),
-            width: 800,
-            height: 800,
-            trail: []
+            width: (window.innerWidth - 200) * 0.6,
+            height: (window.innerWidth - 200) * 0.6,
+            trail: [],
         };
     },
-    mounted() {
-        this.setupVisualisation();
-        this.renderVisualisation();
-        this.watchers.data = this.$watch("data", this.debouncedRender);
+    watch: {
+        data: function() {
+            this.debouncedRender();
+        },
     },
-    beforeDestroy() {
-        this.watchers.data();
+    mounted() {
+        setTimeout(() => {
+            this.setupVisualisation();
+            this.renderVisualisation();
+        }, 300);
     },
     methods: {
         setupVisualisation() {
@@ -83,38 +89,38 @@ export default {
             const color = scaleOrdinal(quantize(interpolateRainbow, 10));
 
             const arc = d3arc()
-                .startAngle(d => d.x0)
-                .endAngle(d => d.x1)
-                .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+                .startAngle((d) => d.x0)
+                .endAngle((d) => d.x1)
+                .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
                 .padRadius(radius / 2)
-                .innerRadius(d => d.y0)
-                .outerRadius(d => d.y1 - 1);
+                .innerRadius((d) => d.y0)
+                .outerRadius((d) => d.y1 - 1);
 
-            const partition = data =>
+            const partition = (data) =>
                 d3partition().size([2 * Math.PI, radius])(
                     hierarchy(data).count()
                 );
 
             const root = partition(this.data);
-            root.each(d => (d.current = d));
+            root.each((d) => (d.current = d));
 
             this.timeslotSunburstVisualisation
                 .append("g")
                 .selectAll("path")
                 .data(root.descendants())
                 .join("path")
-                .attr("fill", d => {
+                .attr("fill", (d) => {
                     const originalData = { ...d.data };
                     while (d.depth > 1) d = d.parent;
                     return originalData.value !== undefined
                         ? color(d.data.name)
                         : "#000";
                 })
-                .attr("d", d => arc(d.current));
+                .attr("d", (d) => arc(d.current));
 
             this.timeslotSunburstVisualisation
                 .selectAll("path")
-                .filter(d => d.depth < 2)
+                .filter((d) => d.depth < 2)
                 .style("cursor", "pointer")
                 .on("click", clicked);
 
@@ -133,7 +139,7 @@ export default {
                 parent.datum(p.parent || root);
 
                 root.each(
-                    d =>
+                    (d) =>
                         (d.target = {
                             x0:
                                 Math.max(
@@ -150,7 +156,7 @@ export default {
                                 2 *
                                 Math.PI,
                             y0: Math.max(0, d.y0 - p.depth),
-                            y1: Math.max(0, d.y1 - p.depth)
+                            y1: Math.max(0, d.y1 - p.depth),
                         })
                 );
 
@@ -165,40 +171,41 @@ export default {
                 select(timeslotSunburstVisualisation)
                     .selectAll("path")
                     .transition(t)
-                    .tween("data", d => {
+                    .tween("data", (d) => {
                         const i = interpolate(d.current, d.target);
-                        return t => (d.current = i(t));
+                        return (t) => (d.current = i(t));
                     })
-                    .attrTween("d", d => () => arc(d.current));
+                    .attrTween("d", (d) => () => arc(d.current));
             }
         },
 
         mouseover(node) {
             let nodes = node.ancestors().reverse();
             nodes.shift();
-            this.trail = nodes.map(n => n.data);
+            this.trail = nodes.map((n) => n.data);
+            return;
 
+            // THIS IS VERY EXPENSIVE...
             // Fade all the segments.
-            this.timeslotSunburstVisualisation
-                .selectAll("path")
-                .style("opacity", 0.3);
+            // this.timeslotSunburstVisualisation
+            //     .selectAll("path")
+            //     .style("opacity", 0.3);
 
             // Then highlight only those that are an ancestor of the current segment.
-            this.timeslotSunburstVisualisation
-                .selectAll("path")
-                .filter(function(n) {
-                    return node.ancestors().indexOf(n) >= 0;
-                })
-                .style("opacity", 1);
+            // this.timeslotSunburstVisualisation
+            //     .selectAll("path")
+            //     .filter(function(n) {
+            //         return node.ancestors().indexOf(n) >= 0;
+            //     })
+            //     .style("opacity", 1);
         },
 
         mouseout() {
-            selectAll("path").style("opacity", 1);
+            // selectAll("path").style("opacity", 1);
             this.trail = [];
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
