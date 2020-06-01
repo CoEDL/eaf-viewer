@@ -117,6 +117,7 @@
 
 <script>
 import { orderBy, round } from "lodash";
+import prettyMilliseconds from "pretty-ms";
 
 export default {
     data() {
@@ -159,7 +160,7 @@ export default {
             };
         },
         humanizeDuration(duration) {
-            return `${round((duration / 1000) * 60, 0)} mins`;
+            return prettyMilliseconds(duration);
         },
     },
 };
