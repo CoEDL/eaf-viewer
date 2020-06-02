@@ -127,7 +127,7 @@ alter the configuration.
 
 # Updating github pages
 
-The [github pages site](https://github.com/CoEDL/eaf-viewer) is contained within the folder `github-pages`
+The [github pages site](https://coedl.github.io/eaf-viewer/) is contained within the folder `github-pages`
 at the root of the repo. This is another VueJS site and it's contained within this folder. So, you make changes
 in this folder, build a release and then commit the updated content in docs and push to update the site.
 
