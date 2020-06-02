@@ -22,28 +22,28 @@ export default {
             currentImageIndex: 0,
             images: [
                 {
-                    file: "images/01-load-folder.png",
+                    file: "images/01-load-folder.webp",
                     text: "Select a folder of EAF files to view.",
                 },
                 {
-                    file: "images/02-view-statistics.png",
+                    file: "images/02-view-statistics.webp",
                     text: "View content statistics.",
                 },
                 {
-                    file: "images/03-visualise-tiers.png",
+                    file: "images/03-visualise-tiers.webp",
                     text: "Visualise the hierarchy starting from the tiers.",
                 },
                 {
-                    file: "images/04-visualise-timeslots.png",
+                    file: "images/04-visualise-timeslots.webp",
                     text:
                         "Visualise the hierarchy starting from the timeslots.",
                 },
                 {
-                    file: "images/05-drilldown.png",
+                    file: "images/05-drilldown.webp",
                     text: "Drilldown into the data.",
                 },
                 {
-                    file: "images/06-drilldown.png",
+                    file: "images/06-drilldown.webp",
                     text: "Drilldown into the data.",
                 },
             ],
