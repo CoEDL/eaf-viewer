@@ -2,10 +2,7 @@
     <div class="flex flex-row space-y-1 border-t-2 justify-around">
         <div class="mr-4">
             <a href="https://www.dynamicsoflanguage.edu.au" target="_blank">
-                <img
-                    src="https://www.dynamicsoflanguage.edu.au/design/main/images/logo-2x.png"
-                    class="h-10 md:h-12 lg:h-16"
-                />
+                <img src="images/coedl-logo.png" class="h-10 md:h-12 lg:h-16" />
             </a>
         </div>
         <div class="hidden md:block flex-grow"></div>
