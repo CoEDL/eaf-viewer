@@ -20,7 +20,7 @@
             :data="index"
             :height="height"
             width="800"
-            :default-sort="{ prop: 'duration', order: 'ascending' }"
+            :default-sort="{ prop: 'file', order: 'ascending' }"
             :highlight-current-row="true"
             :row-style="{ cursor: 'pointer' }"
             size="small"
@@ -48,8 +48,15 @@
                 }}</template>
             </el-table-column>
             <el-table-column
-                prop="statistics.percentageFilled"
-                label="% Filled"
+                prop="statistics.coveredByAnnotations"
+                label="% Covered by Annotations"
+                width="120"
+                sortable="custom"
+                align="center"
+            ></el-table-column>
+            <el-table-column
+                prop="statistics.annotationsWithContent.percentage"
+                label="% Annotations with Content"
                 width="120"
                 sortable="custom"
                 align="center"
@@ -137,7 +144,7 @@ export default {
             pageSize: 10,
             currentPage: 1,
             sort: {
-                prop: "statistics.percentageFilled",
+                prop: "statistics.file",
                 order: "ascending",
             },
         };
