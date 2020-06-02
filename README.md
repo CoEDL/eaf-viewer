@@ -12,6 +12,7 @@
   - [Building Windows releases](#building-windows-releases)
   - [Code signing](#code-signing)
   - [Electron webpack](#electron-webpack)
+- [Updating github pages](#updating-github-pages)
 
 # EAF Viewer
 
@@ -123,3 +124,32 @@ See https://www.electron.build/code-signing for information about code signing.
 This application is built using [electron builder](https://www.electron.build/) and
 [electron-webpack](https://webpack.electron.build/). See the respective links if you need to
 alter the configuration.
+
+# Updating github pages
+
+The [github pages site](https://github.com/CoEDL/eaf-viewer) is contained within the folder `github-pages`
+at the root of the repo. This is another VueJS site and it's contained within this folder. So, you make changes
+in this folder, build a release and then commit the updated content in docs and push to update the site.
+
+If you want to update the site do the following
+
+```
+// Start up the dev server
+> cd github-pages
+> npm run serve
+
+// open up http://localhost:8080 in your browser
+
+// update the site content
+
+```
+
+When you're done and want to build a new version do:
+
+```
+> cd github-pages
+> npm run build
+```
+
+This will create a built version of the site in the docs folder which you can then commit
+and push in order to update the github pages online version.
