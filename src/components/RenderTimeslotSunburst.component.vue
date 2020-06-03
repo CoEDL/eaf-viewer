@@ -1,19 +1,24 @@
 <template>
-    <div class="flex flex-row bg-gray-200 py-4 rounded">
-        <div class="w-3/5">
-            <svg ref="timeslotSunburstChart" class="mx-auto" />
-        </div>
-        <div class="w-2/5 p-4 text-lg flex flex-col">
-            <div v-for="(element, idx) of trail" :key="idx" class="my-2">
-                <span v-if="element.ts">
-                    <div>
-                        TIMESLOT: {{ element.ts.start }} - {{ element.ts.end }}
-                    </div>
-                    <div>
-                        Time: {{ element.time.start }} - {{ element.time.end }}
-                    </div>
-                </span>
-                <div>ID: {{ element.name }} VALUE: {{ element.value }}</div>
+    <div class="flex flex-col">
+        <alert-large-graph-component v-if="alertLargeGraph" />
+        <div class="flex flex-row bg-gray-200 py-4 rounded">
+            <div class="w-3/5">
+                <svg ref="timeslotSunburstChart" class="mx-auto" />
+            </div>
+            <div class="w-2/5 p-4 text-lg flex flex-col">
+                <div v-for="(element, idx) of trail" :key="idx" class="my-2">
+                    <span v-if="element.ts">
+                        <div>
+                            TIMESLOT: {{ element.ts.start }} -
+                            {{ element.ts.end }}
+                        </div>
+                        <div>
+                            Time: {{ element.time.start }} -
+                            {{ element.time.end }}
+                        </div>
+                    </span>
+                    <div>ID: {{ element.name }} VALUE: {{ element.value }}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -32,8 +37,12 @@ import { format as d3format } from "d3-format";
 import { transition, delay } from "d3-transition";
 import { groupBy, debounce } from "lodash";
 import DOM from "@observablehq/stdlib/src/dom";
+import AlertLargeGraphComponent from "./AlertLargeGraph.component.vue";
 
 export default {
+    components: {
+        AlertLargeGraphComponent,
+    },
     props: {
         data: {
             type: Object,
@@ -47,6 +56,7 @@ export default {
             height: (window.innerWidth - 200) * 0.6,
             trail: [],
             maxResources: 1000,
+            alertLargeGraph: false,
         };
     },
     watch: {
@@ -79,6 +89,9 @@ export default {
                 );
         },
         renderVisualisation() {
+            if (this.data.statistics.referenceAnnotations > this.maxResources) {
+                this.alertLargeGraph = true;
+            }
             var timeslotSunburstVisualisation = this.$refs[
                 "timeslotSunburstChart"
             ];
@@ -191,7 +204,7 @@ export default {
 
             if (this.data.statistics.referenceAnnotations > this.maxResources)
                 return;
-            b;
+
             // THIS IS VERY EXPENSIVE so we only come this far for small hierarchies
             // Fade all the segments.
             this.timeslotSunburstVisualisation
