@@ -31,9 +31,7 @@
                             tier and its associated annotations. To zoom back
                             out, select the central node.
                         </div>
-                        <render-tier-sunburst-component
-                            :data="selection.tiers"
-                        />
+                        <render-tier-sunburst-component :data="selection" />
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="Visualise Timeslots" name="timeslots">
@@ -50,9 +48,7 @@
                             annotations. To zoom back out, select the central
                             node.
                         </div>
-                        <render-timeslot-sunburst-component
-                            :data="selection.timeslots"
-                        />
+                        <render-timeslot-sunburst-component :data="selection" />
                     </div>
                 </el-tab-pane>
             </el-tabs>

@@ -51,6 +51,7 @@ export default {
             width: (window.innerWidth - 200) * 0.6,
             height: (window.innerWidth - 200) * 0.6,
             trail: [],
+            maxResources: 1000,
         };
     },
     watch: {
@@ -84,6 +85,10 @@ export default {
         },
         renderVisualisation() {
             var tierSunburstVisualisation = this.$refs["tierSunburstChart"];
+            var duration =
+                this.data.statistics.referenceAnnotations > this.maxResources
+                    ? 0
+                    : 750;
             this.tierSunburstVisualisation.selectAll("path").remove();
 
             // const radius = Math.min(this.width, this.height) / 2;
@@ -104,7 +109,7 @@ export default {
                     hierarchy(data).count()
                 );
 
-            const root = partition(this.data);
+            const root = partition(this.data.tiers);
             root.each((d) => (d.current = d));
 
             this.tierSunburstVisualisation
@@ -167,7 +172,7 @@ export default {
                 const t = select(tierSunburstVisualisation)
                     .select("g")
                     .transition()
-                    .duration(750);
+                    .duration(duration);
 
                 // Transition the data on all arcs, even the ones that aren’t visible,
                 // so that if this transition is interrupted, entering arcs will start
@@ -188,25 +193,29 @@ export default {
             let nodes = node.ancestors().reverse();
             nodes.shift();
             this.trail = nodes.map((n) => n.data);
-            return;
 
-            // THIS IS VERY EXPENSIVE...
+            if (this.data.statistics.referenceAnnotations > this.maxResources)
+                return;
+
+            // THIS IS VERY EXPENSIVE so we only come this far for small hierarchies
             // Fade all the segments.
-            // this.tierSunburstVisualisation
-            //     .selectAll("path")
-            //     .style("opacity", 0.3);
+            this.tierSunburstVisualisation
+                .selectAll("path")
+                .style("opacity", 0.3);
 
             // Then highlight only those that are an ancestor of the current segment.
-            // this.tierSunburstVisualisation
-            //     .selectAll("path")
-            //     .filter(function(n) {
-            //         return node.ancestors().indexOf(n) >= 0;
-            //     })
-            //     .style("opacity", 1);
+            this.tierSunburstVisualisation
+                .selectAll("path")
+                .filter(function(n) {
+                    return node.ancestors().indexOf(n) >= 0;
+                })
+                .style("opacity", 1);
         },
 
         mouseout() {
-            // selectAll("path").style("opacity", 1);
+            if (this.data.statistics.referenceAnnotations < this.maxResources) {
+                selectAll("path").style("opacity", 1);
+            }
             this.trail = [];
         },
     },
