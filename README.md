@@ -1,3 +1,6 @@
+> ## Users should get a pre-built bundle from [https://coedl.github.io/eaf-viewer/](https://coedl.github.io/eaf-viewer/)
+
+
 - [EAF Viewer](#eaf-viewer)
   - [Developing the application](#developing-the-application)
   - [Vue application](#vue-application)
