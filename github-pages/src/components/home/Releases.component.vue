@@ -70,7 +70,7 @@ export default {
                     return `https://github.com/coedl/eaf-viewer/releases/download/${this.release.tag_name}/EAF-Viewer-${this.release.name}.dmg`;
                     break;
                 case "linux":
-                    return `https://github.com/coedl/eaf-viewer/releases/download/${this.release.tag_name}/pdsc-eaf-viewer-${this.release.name}.tar.bz2`;
+                    return `https://github.com/coedl/eaf-viewer/releases/download/${this.release.tag_name}/eaf-viewer-${this.release.name}.tar.bz2`;
                     break;
             }
         },
